@@ -45,7 +45,7 @@ export default function Hero() {
         {/* Prev Button */}
         <button
           onClick={prevSlide}
-          className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 shadow-md"
+          className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 shadow-md cursor-pointer"
         >
           &#10094;
         </button>
@@ -53,7 +53,7 @@ export default function Hero() {
         {/* Next Button */}
         <button
           onClick={nextSlide}
-          className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 shadow-md"
+          className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 shadow-md cursor-pointer"
         >
           &#10095;
         </button>
