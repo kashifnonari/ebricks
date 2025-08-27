@@ -8,6 +8,18 @@ const images = [
   "/images/bricks/pakki.webp",
 ];
 
+const bricktype = [
+  "/images/bricktype/awal.jpg",
+  "/images/bricktype/dom.webp",
+  "/images/bricktype/kachi.webp",
+  "/images/bricktype/pakki.webp",
+  "/images/bricktype/b-1.jpg",
+  "/images/bricktype/b-2.jpg",
+  "/images/bricktype/farshi.jpeg",
+  "/images/bricktype/kachi.jpg",
+  "/images/bricktype/tail.jpg",
+];
+
 export default function Hero() {
   const [current, setCurrent] = useState(0);
 
@@ -21,16 +33,20 @@ export default function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((curr) => (curr === images.length - 1 ? 0 : curr + 1));
-    }, 5000); // <-- 5 seconds (slow like Bootstrap)
-
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
+  // Helper to prettify the image name
+  const getLabel = (path) => {
+    const name = path.split("/").pop().split(".")[0];
+    return name.replace(/[-_]/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+  };
+
   return (
-    <main className="w-full">
-      <section className="relative w-full h-56 sm:h-72 md:h-96 lg:h-[28rem] overflow-hidden rounded-lg shadow-lg bg-gray-200">
-        
-        {/* Slides (fade effect) */}
+    <main className="w-[90%] mx-auto py-8">
+      {/* Carousel */}
+      <section className="relative w-full h-56 sm:h-72 md:h-96 lg:h-[28rem] overflow-hidden rounded-lg shadow-lg bg-gray-200 mb-10">
         {images.map((img, idx) => (
           <img
             key={idx}
@@ -40,25 +56,19 @@ export default function Hero() {
               idx === current ? "opacity-100" : "opacity-0"
             }`}
           />
-        ))}
-
-        {/* Prev Button */}
+          ))}
         <button
           onClick={prevSlide}
           className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 shadow-md cursor-pointer"
         >
           &#10094;
-        </button>
-
-        {/* Next Button */}
+          </button>
         <button
           onClick={nextSlide}
           className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full p-3 shadow-md cursor-pointer"
         >
           &#10095;
-        </button>
-
-        {/* Indicators */}
+          </button>
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
           {images.map((_, idx) => (
             <button
@@ -71,6 +81,28 @@ export default function Hero() {
           ))}
         </div>
       </section>
+
+      {/* Brick Type Cards */}
+      <h2 className="text-2xl font-bold mb-6 text-center">Brick Types</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-6">
+        {bricktype.map((img, idx) => (
+          <div
+            key={img}
+            className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col items-center hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src={img}
+              alt={getLabel(img)}
+              className="w-full h-48 object-cover object-center"
+            />
+            <div className="p-4 w-full text-center">
+              <h3 className="font-semibold text-lg capitalize">
+                {getLabel(img)}
+              </h3>
+            </div>
+          </div>
+        ))}
+      </div>
     </main>
   );
-}
+  }

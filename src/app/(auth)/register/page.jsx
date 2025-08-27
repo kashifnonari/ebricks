@@ -1,16 +1,22 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const [success, setSuccess] = useState(false);
+    const router = useRouter();
 
     const onSubmit = (data) => {
-        console.log(data);
+        setSuccess(true);
+        setTimeout(() => {
+            setSuccess(false);
+            router.push("/login");
+        }, 2000);
         reset();
     };
 
-    // Add background image to body only on this page
     useEffect(() => {
         const original = document.body.style.background;
         document.body.style.background = 'linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.7)), url("/images/bricks/register.jpg") center/cover no-repeat fixed';
@@ -33,8 +39,13 @@ export default function Register() {
                 <section className="flex flex-col gap-2 mb-2">
                     <h1 className="text-center font-extrabold text-3xl text-gray-800 tracking-wide drop-shadow">Register Here</h1>
                     <hr className="w-1/2 mx-auto border-gray-300" />
+                    {success && (
+                        <div className="text-center text-green-600 font-semibold mt-2 animate-fade-in">
+                            Registration successful! Redirecting to login...
+                        </div>
+                    )}
                 </section>
-                {/* UserName */}
+                {/* ...inputs and errors as before... */}
                 <input
                     type="text"
                     className="focus:outline-none border border-gray-400 focus:border-blue-400 rounded px-3 p-2 transition-all duration-300 shadow-sm"
@@ -46,7 +57,6 @@ export default function Register() {
                     placeholder="Enter Name"
                 />
                 {errors.username && <span className="text-red-600 text-sm">{errors.username.message}</span>}
-                {/* Email */}
                 <input
                     type="email"
                     className="focus:outline-none border border-gray-400 focus:border-blue-400 rounded px-3 p-2 transition-all duration-300 shadow-sm"
@@ -60,7 +70,6 @@ export default function Register() {
                     placeholder="Enter Email"
                 />
                 {errors.email && <span className="text-red-600 text-sm">{errors.email.message}</span>}
-                {/* Password */}
                 <input
                     type="password"
                     className="focus:outline-none border border-gray-400 focus:border-blue-400 rounded px-3 p-2 transition-all duration-300 shadow-sm"
@@ -71,7 +80,6 @@ export default function Register() {
                     placeholder="Enter Password"
                 />
                 {errors.password && <span className="text-red-600 text-sm">{errors.password.message}</span>}
-                {/* cnic */}
                 <input
                     type="text"
                     className="focus:outline-none border border-gray-400 focus:border-blue-400 rounded px-3 p-2 transition-all duration-300 shadow-sm"
@@ -85,7 +93,6 @@ export default function Register() {
                     placeholder="Enter CNIC (XXXXX-XXXXXXX-X)"
                 />
                 {errors.cnic && <span className="text-red-600 text-sm">{errors.cnic.message}</span>}
-                {/* photo */}
                 <input
                     type="file"
                     className="focus:outline-none border border-gray-400 focus:border-blue-400 rounded px-3 p-2 transition-all duration-300 shadow-sm bg-white"
@@ -94,7 +101,6 @@ export default function Register() {
                     })}
                 />
                 {errors.photo && <span className="text-red-600 text-sm">{errors.photo.message}</span>}
-                {/* role */}
                 <select
                     className="focus:outline-none border border-gray-400 focus:border-blue-400 rounded px-3 p-2 transition-all duration-300 shadow-sm bg-white"
                     {...register("role", {
@@ -108,7 +114,6 @@ export default function Register() {
                     <option value="user">Buyer</option>
                 </select>
                 {errors.role && <span className="text-red-600 text-sm">{errors.role.message}</span>}
-                {/* Submit Button */}
                 <div className="flex justify-end mt-2">
                     <button
                         type="submit"
@@ -120,15 +125,4 @@ export default function Register() {
             </form>
         </section>
     );
-}
-
-// Add this to your Tailwind config or global CSS for fade-in animation:
-// @layer utilities {
-//   .animate-fade-in {
-//     animation: fadeIn 1s ease;
-//   }
-//   @keyframes fadeIn {
-//     from { opacity: 0; transform: translateY(20px); }
-//     to { opacity: 1; transform: translateY(0); }
-//   }
-// }
+    }
